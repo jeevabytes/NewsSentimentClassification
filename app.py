@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import time
+import os
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark.ml.feature import Tokenizer, StopWordsRemover, CountVectorizer, StringIndexer, IndexToString
@@ -49,7 +50,7 @@ label_converter = IndexToString(inputCol="prediction", outputCol="predicted_labe
 st.set_page_config(page_title="Real-Time News Sentiment", layout="wide")
 st.title("📰 Real-Time News Sentiment Dashboard (PySpark ML)")
 
-API_KEY = 'pub_40a5b76072f54ab9ab67064dbd6acb80'  
+API_KEY = os.environ.get("NEWS_API_KEY")
 URL = f'https://newsdata.io/api/1/news?apikey={API_KEY}&language=en'
 
 # Placeholder for live updates
@@ -85,3 +86,4 @@ while True:
     except Exception as e:
         st.error(f"Error fetching news: {e}")
         time.sleep(30)
+
